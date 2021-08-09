@@ -1,3 +1,4 @@
+package resourceUtilization;
 import java.io.*;
 import java.sql.*;
 
@@ -19,14 +20,12 @@ public class ResourceLeakTest {
 			e2.printStackTrace();
 		}
 		
-		// Open a connection
+		// db connection leak
 		Connection conn = null;
 	      try{
 	    	  conn = DriverManager.getConnection(DB_URL, USER, PASS);
 	    	  Statement stmt = conn.createStatement();
-		      ResultSet rs = stmt.executeQuery(QUERY);
-
-		         
+		      ResultSet rs = stmt.executeQuery(QUERY);		        
 	      }catch (SQLException e) {
 	         e.printStackTrace();
 //	         try {
@@ -37,14 +36,12 @@ public class ResourceLeakTest {
 //			}
 	      } 
 	      
-	      
+	      // i/o leak 
 	      InputStream input = null;
 	      OutputStream output = null;
 	      try {
 	          input = new FileInputStream("");
 	          output = new FileOutputStream ("");  // BUG MARKED HERE
-	          byte[] buffer = new byte[1024 * 8];
-
 	          output.flush();
 //	          output.close();
 //	          input.close();
